@@ -13,9 +13,11 @@ from dcs.weather import CloudPreset, Weather as PydcsWeather, Wind
 from game.settings import Settings
 from game.utils import Distance, meters, interpolate
 
+from game.theater.seasonalconditions import determine_season
+
 if TYPE_CHECKING:
     from game.theater import ConflictTheater
-    from game.theater.conflicttheater import SeasonalConditions
+    from game.theater.seasonalconditions import SeasonalConditions
 
 
 class TimeOfDay(Enum):
@@ -325,14 +327,18 @@ class Conditions:
         day: datetime.date,
         time_of_day: TimeOfDay,
     ) -> Weather:
-        # Future improvement: use seasonal weights for theaters
+        season = determine_season(day)
+        logging.debug("Season is {}".format(season))
+        weather_chances = seasonal_conditions.weather_type_chances[season]
         chances = {
-            Thunderstorm: 1,
-            Raining: 20,
-            Cloudy: 60,
-            ClearSkies: 20,
+            Thunderstorm: weather_chances.thunderstorm,
+            Raining: weather_chances.raining,
+            Cloudy: weather_chances.cloudy,
+            ClearSkies: weather_chances.clear_skies,
         }
+        logging.debug("Chances this season {}".format(weather_chances))
         weather_type = random.choices(
             list(chances.keys()), weights=list(chances.values())
         )[0]
+        logging.debug("Weather type is {}".format(weather_type))
         return weather_type(seasonal_conditions, day, time_of_day)

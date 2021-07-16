@@ -51,6 +51,7 @@ from .controlpoint import (
     MissionTarget,
     OffMapSpawn,
 )
+from .seasonalconditions import SeasonalConditions
 from .frontline import FrontLine
 from .landmap import Landmap, load_landmap, poly_contains
 from .latlon import LatLon
@@ -497,17 +498,6 @@ class ReferencePoint:
     image_coordinates: Point
 
 
-@dataclass(frozen=True)
-class SeasonalConditions:
-    # Units are inHg and degrees Celsius
-    # Future improvement: add clouds/precipitation
-    summer_avg_pressure: float
-    winter_avg_pressure: float
-    summer_avg_temperature: float
-    winter_avg_temperature: float
-    temperature_day_night_difference: float
-
-
 class ConflictTheater:
     terrain: Terrain
 
@@ -765,13 +755,9 @@ class CaucasusTheater(ConflictTheater):
 
     @property
     def seasonal_conditions(self) -> SeasonalConditions:
-        return SeasonalConditions(
-            summer_avg_pressure=30.02,  # TODO: More science
-            winter_avg_pressure=29.72,  # TODO: More science
-            summer_avg_temperature=22.5,
-            winter_avg_temperature=3.0,
-            temperature_day_night_difference=6.0,
-        )
+        from .caucasus import SEASONAL_CONDITIONS
+
+        return SEASONAL_CONDITIONS
 
     @property
     def projection_parameters(self) -> TransverseMercator:
@@ -797,13 +783,9 @@ class PersianGulfTheater(ConflictTheater):
 
     @property
     def seasonal_conditions(self) -> SeasonalConditions:
-        return SeasonalConditions(
-            summer_avg_pressure=29.98,  # TODO: More science
-            winter_avg_pressure=29.80,  # TODO: More science
-            summer_avg_temperature=32.5,
-            winter_avg_temperature=15.0,
-            temperature_day_night_difference=2.0,
-        )
+        from .persiangulf import SEASONAL_CONDITIONS
+
+        return SEASONAL_CONDITIONS
 
     @property
     def projection_parameters(self) -> TransverseMercator:
@@ -829,13 +811,9 @@ class NevadaTheater(ConflictTheater):
 
     @property
     def seasonal_conditions(self) -> SeasonalConditions:
-        return SeasonalConditions(
-            summer_avg_pressure=30.02,  # TODO: More science
-            winter_avg_pressure=29.72,  # TODO: More science
-            summer_avg_temperature=31.5,
-            winter_avg_temperature=5.0,
-            temperature_day_night_difference=6.0,
-        )
+        from .nevada import SEASONAL_CONDITIONS
+
+        return SEASONAL_CONDITIONS
 
     @property
     def projection_parameters(self) -> TransverseMercator:
@@ -861,13 +839,9 @@ class NormandyTheater(ConflictTheater):
 
     @property
     def seasonal_conditions(self) -> SeasonalConditions:
-        return SeasonalConditions(
-            summer_avg_pressure=30.02,  # TODO: More science
-            winter_avg_pressure=29.72,  # TODO: More science
-            summer_avg_temperature=20.0,
-            winter_avg_temperature=0.0,
-            temperature_day_night_difference=5.0,
-        )
+        from .normandy import SEASONAL_CONDITIONS
+
+        return SEASONAL_CONDITIONS
 
     @property
     def projection_parameters(self) -> TransverseMercator:
@@ -893,13 +867,9 @@ class TheChannelTheater(ConflictTheater):
 
     @property
     def seasonal_conditions(self) -> SeasonalConditions:
-        return SeasonalConditions(
-            summer_avg_pressure=30.02,  # TODO: More science
-            winter_avg_pressure=29.72,  # TODO: More science
-            summer_avg_temperature=20.0,
-            winter_avg_temperature=0.0,
-            temperature_day_night_difference=5.0,
-        )
+        from .thechannel import SEASONAL_CONDITIONS
+
+        return SEASONAL_CONDITIONS
 
     @property
     def projection_parameters(self) -> TransverseMercator:
@@ -925,13 +895,9 @@ class SyriaTheater(ConflictTheater):
 
     @property
     def seasonal_conditions(self) -> SeasonalConditions:
-        return SeasonalConditions(
-            summer_avg_pressure=29.98,  # TODO: More science
-            winter_avg_pressure=29.86,  # TODO: More science
-            summer_avg_temperature=28.5,
-            winter_avg_temperature=10.0,
-            temperature_day_night_difference=8.0,
-        )
+        from .syria import SEASONAL_CONDITIONS
+
+        return SEASONAL_CONDITIONS
 
     @property
     def projection_parameters(self) -> TransverseMercator:
@@ -954,13 +920,9 @@ class MarianaIslandsTheater(ConflictTheater):
 
     @property
     def seasonal_conditions(self) -> SeasonalConditions:
-        return SeasonalConditions(
-            summer_avg_pressure=30.02,  # TODO: More science
-            winter_avg_pressure=29.82,  # TODO: More science
-            summer_avg_temperature=28.0,
-            winter_avg_temperature=27.0,
-            temperature_day_night_difference=1.0,
-        )
+        from .marianaislands import SEASONAL_CONDITIONS
+
+        return SEASONAL_CONDITIONS
 
     @property
     def projection_parameters(self) -> TransverseMercator:
